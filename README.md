@@ -1,7 +1,45 @@
 # NBA Oracle Relational Model
 
-Oracle SQL coursework and a small, fictional-data reconstruction for reviewing
-relational design, integrity constraints and analytical queries.
+Model basketball rosters, games and player performance in **Oracle SQL**, then
+answer roster, scoring and team-comparison questions with relational joins,
+aggregate views and analytic ranking. The repository pairs the original final
+coursework DDL with a compact demonstration using fictional records.
+
+[Original final DDL](coursework/final_schema.sql) · [Demonstration schema](schema.sql) · [Analytical SQL](analysis_queries.sql) · [Methods and limits](METHODS_AND_LIMITATIONS.md)
+
+**Scope:** academic database design and SQL source. The original dates to 2024;
+the public demonstration was reconstructed in 2026. Static checks are available;
+a fresh Oracle runtime verification is still pending.
+
+## Demonstration schema
+
+```mermaid
+erDiagram
+    POSITIONS ||--o{ PLAYERS : classifies
+    TEAMS ||--o{ PLAYERS : current_roster
+    PLAYERS ||--o{ PLAYER_STATS : records
+    GAMES ||--o{ PLAYER_STATS : contains
+    TEAMS ||--o{ GAMES : home_team
+    TEAMS ||--o{ GAMES : away_team
+```
+
+`player_stats` has one row per `game_id + player_id`. Home and away teams must
+differ; checks reject negative box-score values. Fixture sizes are five
+positions, four teams, eight players, four games and eight player-stat rows.
+Only two games contain sample player lines; these are partial demonstrations,
+not reconciled complete box scores.
+
+
+## Skills demonstrated
+
+| Skill | Inspect the evidence |
+| --- | --- |
+| **Oracle SQL, relational data modeling, entity relationships** | Five demonstration entities, explicit game/player grain and home/away relationships in [schema.sql](schema.sql) |
+| **Data integrity, primary/foreign keys, unique and check constraints** | Roster uniqueness, distinct game teams and nonnegative statistics in [schema.sql](schema.sql) |
+| **SQL joins, GROUP BY, aggregate functions and reusable views** | Player/team summaries and game-level joins in [analysis_queries.sql](analysis_queries.sql) |
+| **Window functions and deterministic ranking** | `ROW_NUMBER() OVER (PARTITION BY … ORDER BY …)` with a player-ID tie-breaker in [analysis_queries.sql](analysis_queries.sql) |
+| **Indexes and PL/SQL audit-trigger source** | Access-path definitions in the demo; a sequence and update-audit trigger in the [original final DDL](coursework/final_schema.sql), with runtime limits documented separately |
+| **Python unittest and static validation** | [Package checks](tests/test_sql_package.py) inspect SQL structure, links and publication boundaries without executing Oracle |
 
 **Author:** Vansh Verma. The original database work dates to 2024; the public
 reconstruction and source reconciliation are from 2026. This is an academic
@@ -28,23 +66,6 @@ copy or a claim that the original had the same table grains**.
 - How do players rank within their current team by recorded points?
 - What team totals follow from the supplied player lines?
 
-## Demonstration schema
-
-```mermaid
-erDiagram
-    POSITIONS ||--o{ PLAYERS : classifies
-    TEAMS ||--o{ PLAYERS : current_roster
-    PLAYERS ||--o{ PLAYER_STATS : records
-    GAMES ||--o{ PLAYER_STATS : contains
-    TEAMS ||--o{ GAMES : home_team
-    TEAMS ||--o{ GAMES : away_team
-```
-
-`player_stats` has one row per `game_id + player_id`. Home and away teams must
-differ; checks reject negative box-score values. Fixture sizes are five
-positions, four teams, eight players, four games and eight player-stat rows.
-Only two games contain sample player lines; these are partial demonstrations,
-not reconciled complete box scores.
 
 All demonstration records are fictional sample data. No real roster, game log,
 salary data, private report, presentation, personal identifier or screenshot is
