@@ -30,6 +30,12 @@ Only two games contain sample player lines; these are partial demonstrations,
 not reconciled complete box scores.
 
 
+The [execution checklist and expected-result contract](verification/README.md)
+now provide a single `@verify.sql` entry point for a future disposable-schema
+run. It checks fictional fixture totals and rollback-safe negative constraints.
+The runner is **not Oracle runtime evidence**; execution in Oracle remains
+`Needs Evidence`.
+
 ## Skills demonstrated
 
 | Skill | Inspect the evidence |
@@ -80,6 +86,8 @@ published.
 - [coursework/README.md](coursework/README.md): provenance and original-design caveats
 - [METHODS_AND_LIMITATIONS.md](METHODS_AND_LIMITATIONS.md): evidence and design limits
 - [DATA_AND_USAGE.md](DATA_AND_USAGE.md): ownership and data boundary
+- [verify.sql](verify.sql): error-stopping entry point for an empty Oracle schema
+- [verification/README.md](verification/README.md): runtime checklist and hand-calculated expectations
 - [tests/test_sql_package.py](tests/test_sql_package.py): dependency-free static package checks
 
 ## Run the static checks
@@ -98,12 +106,11 @@ boundaries. They do not execute SQL or establish database compatibility.
 In an **empty, disposable Oracle schema**, run only:
 
 ```sql
-@schema.sql
-@sample_data.sql
-@analysis_queries.sql
+@verify.sql
 ```
 
-The demonstration targets Oracle 21c. Do not combine it with the historical
+This runner loads schema, fixture and queries, then asserts expected outputs and
+constraint failures. The demonstration targets Oracle 21c. Do not combine it with the historical
 DDL: overlapping object names represent different schemas.
 
 ## Verification status

@@ -53,3 +53,8 @@ Run the three demonstration files in a disposable Oracle schema. Record the
 Oracle version, constraint checks, fixture row counts and view outputs, then add
 that evidence with any necessary corrections. Until then, execution in Oracle
 remains `Needs Evidence`.
+
+The November 2026 [verification runner](verify.sql) and
+[assertion checklist](verification/README.md) package that next step. Python
+checks validate the supplied expected-result arithmetic and preserved original
+DDL fingerprint. They do not compile SQL or execute the historical trigger.

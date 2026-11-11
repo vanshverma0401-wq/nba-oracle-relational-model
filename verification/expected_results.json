@@ -1,0 +1,9 @@
+{
+  "status": "HAND_CALCULATED_CONTRACT_NOT_ORACLE_OUTPUT",
+  "scope": "Fictional five-table demonstration only; historical coursework trigger excluded",
+  "row_counts": {"positions": 5, "teams": 4, "players": 8, "games": 4, "player_stats": 8, "player_team_summary": 8},
+  "total_player_line_points": 189,
+  "team_player_line_points": {"101": 51, "102": 41, "103": 46, "104": 51},
+  "player_points": {"1001": 24, "1002": 27, "1003": 22, "1004": 19, "1005": 21, "1006": 25, "1007": 28, "1008": 23},
+  "interpretation": "Partial player lines; these totals are not expected to equal recorded game scores."
+}
